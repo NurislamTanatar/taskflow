@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskFlow</title>
+</head>
+<body>
+
+<h1>TaskFlow</h1>
+
+{% if user.is_authenticated %}
+<p>Welcome {{ user.username }}</p>
+
+<a href="{% url 'create_task' %}">Create Task</a> |
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+<hr>
+
+{% for task in tasks %}
+<h3>{{ task.title }}</h3>
+
+<p>{{ task.description }}</p>
+
+<p>Status: {{ task.status }}</p>
+
+<a href="{% url 'delete_task' task.id %}">Delete</a>
+
+<hr>
+
+{% empty %}
+
+<p>No tasks</p>
+
+{% endfor %}
+
+{% else %}
+
+<a href="{% url 'login' %}">Login</a>
+
+<a href="{% url 'register' %}">Register</a>
+
+{% endif %}
+
+</body>
+</html>
